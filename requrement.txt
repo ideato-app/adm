@@ -1,0 +1,69 @@
+📌 **Goal: Build an Admin Dashboard to manage CMS content using Prismic CMA (Content Management API) via REST**
+
+🎯 **Objective:**
+Create a simple and user-friendly Admin Dashboard that interacts with the Prismic CMA API to manage content (CRUD operations), using only **HTML5, CSS3, and Vanilla JavaScript** — without any frontend frameworks (no React, Vue, etc.).
+
+---
+
+🧱 **Project Structure:**
+admin-dashboard/
+│
+├── index.html # Main dashboard UI
+├── css/
+│ └── style.css # Custom styles for the dashboard
+├── js/
+│ ├── config.js # Configuration (API token, repo name, base URLs)
+│ └── main.js # Main logic: fetch, update, delete content via API
+│
+├── assets/ # Images, icons, or logos (optional)
+│
+└── README.md # Instructions for setup and usage
+
+
+---
+
+🛠️ **Core Functionalities:**
+1. **Display documents** from a specific Prismic custom type (e.g., blog posts).
+2. **Edit content** using the CMA REST API.
+3. **Create new documents.**
+4. **Delete existing documents.**
+5. **Show success/failure messages** after every operation.
+
+---
+
+🔐 **Technical Notes:**
+- Use **Prismic CMA (Content Management API)** — not the GraphQL or Content Query API.
+- Use your **Access Token** for authorization.
+- Use `fetch()` or `axios` for HTTP requests.
+- Ensure headers and request bodies follow Prismic’s CMA REST specs.
+- UI must be responsive, clean, and intuitive.
+
+---
+
+🚨 **Error Handling:**
+- All API calls must be wrapped with proper `.catch()` or `try...catch` blocks.
+- On error, show **user-friendly messages**, such as:
+  - ❌ "Failed to fetch documents from Prismic."
+  - ❌ "Error saving changes. Please try again."
+- Log detailed errors to the **browser console** for debugging.
+- Handle edge cases like:
+  - Expired or missing API token.
+  - Insufficient permissions.
+  - Network issues.
+
+---
+
+📝 **README.md should include:**
+1. Steps to run the project locally.
+2. How to configure the API token and repo name.
+3. Notes about Prismic CMA limitations and rate limits.
+4. Example API request formats for GET, POST, PATCH, DELETE.
+
+---
+
+📦 **Deliverables:**
+- Fully working project files (HTML, CSS, JS).
+- Clean and modular code.
+- A basic UI that connects with live data from a Prismic repository.
+- Error handling and user feedback integrated.
+- Clear README for setup and usage instructions.

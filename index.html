@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prismic Admin Dashboard</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Prismic Admin Dashboard</h1>
+            <div class="status-container">
+                <div id="status-message" class="hidden"></div>
+            </div>
+        </header>
+
+        <main>
+            <div class="content-type-selector">
+                <label for="content-type">Select Content Type:</label>
+                <select id="content-type">
+                    <option value="blog-post">Blog Post</option>
+                    <!-- Add more content types as needed -->
+                </select>
+                <button id="fetch-documents" class="btn primary">Fetch Documents</button>
+                <button id="create-document" class="btn success">Create New Document</button>
+            </div>
+
+            <div class="documents-container">
+                <h2>Documents</h2>
+                <div id="documents-list" class="documents-list">
+                    <!-- Documents will be loaded here dynamically -->
+                    <div class="loading">Loading documents...</div>
+                </div>
+            </div>
+
+            <div id="document-form-container" class="document-form-container hidden">
+                <h2 id="form-title">Edit Document</h2>
+                <form id="document-form">
+                    <input type="hidden" id="document-id">
+                    <input type="hidden" id="document-ref">
+
+                    <div class="form-group">
+                        <label for="document-title">Title</label>
+                        <input type="text" id="document-title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="document-content">Content</label>
+                        <textarea id="document-content" rows="10" required></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" id="cancel-edit" class="btn">Cancel</button>
+                        <button type="submit" class="btn primary">Save Document</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <!-- Templates -->
+    <template id="document-item-template">
+        <div class="document-item">
+            <div class="document-info">
+                <h3 class="document-title"></h3>
+                <p class="document-date"></p>
+            </div>
+            <div class="document-actions">
+                <button class="btn edit-document">Edit</button>
+                <button class="btn danger delete-document">Delete</button>
+            </div>
+        </div>
+    </template>
+
+    <script src="js/config.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>
