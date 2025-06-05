@@ -58,13 +58,25 @@ To use the Content Management API, you need an access token with the appropriate
 3. Create a new permanent access token with content management permissions
 4. Copy the token and paste it in your `config.js` file
 
-### 3. Running the Project
+### 3. Enable CORS Proxy Access
+
+This application uses a CORS proxy to handle cross-origin requests to the Prismic API. Before using the application, you need to enable temporary access to the CORS proxy:
+
+1. Visit [https://cors-anywhere.herokuapp.com/corsdemo](https://cors-anywhere.herokuapp.com/corsdemo)
+2. Click the "Request temporary access to the demo server" button
+3. You should see a message saying "You currently have temporary access to the demo server"
+4. Return to the admin dashboard application
+
+Note: This temporary access typically lasts for several hours. If you experience CORS errors, you may need to revisit the link and request access again.
+
+### 4. Running the Project
 
 This is a static HTML/JS/CSS project, so you can run it locally:
 
 - Using a local server like XAMPP, WAMP, or any other web server
 - Using the `live-server` npm package
 - Using VSCode's Live Server extension
+- Or deploy it to a static hosting service like GitHub Pages
 
 Simply place the files in your web server's directory or start a local development server in the project directory.
 

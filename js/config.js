@@ -3,6 +3,9 @@
  * This file contains configuration for interacting with Prismic's Content Management API (CMA)
  */
 
+// CORS proxy URL - for handling CORS issues when accessing Prismic API
+const CORS_PROXY = 'https://cors-anywhere.herokuapp.com/';
+
 // Replace these values with your actual Prismic repository information
 const PRISMIC_CONFIG = {
     // Your Prismic repository name
@@ -46,6 +49,16 @@ const PRISMIC_CONFIG = {
             }
         }
         // Add more content types as needed
+    }
+};
+
+// Add proxied endpoints for use with CORS proxy
+PRISMIC_CONFIG.proxiedEndpoints = {
+    repository: `${CORS_PROXY}${PRISMIC_CONFIG.endpoints.repository}`,
+    documents: `${CORS_PROXY}${PRISMIC_CONFIG.endpoints.documents}`,
+    cma: {
+        base: `${CORS_PROXY}${PRISMIC_CONFIG.endpoints.cma.base}`,
+        documents: `${CORS_PROXY}${PRISMIC_CONFIG.endpoints.cma.documents}`
     }
 };
 

@@ -24,8 +24,20 @@ const elements = {
 let currentMasterRef = null;
 let currentDocuments = [];
 
+// Check if CORS proxy requires access permission
+function checkCorsProxyAccess() {
+    // Display a message about CORS proxy
+    showStatusMessage('You may need to enable the CORS proxy. If prompted, click "Request temporary access"', 'info');
+
+    // Open the CORS proxy in a new tab to request access
+    window.open('https://cors-anywhere.herokuapp.com/corsdemo', '_blank');
+}
+
 // Initialize the application
 document.addEventListener('DOMContentLoaded', () => {
+    // Show info about CORS proxy
+    checkCorsProxyAccess();
+
     // Setup event listeners
     elements.fetchDocumentsBtn.addEventListener('click', fetchDocuments);
     elements.createDocumentBtn.addEventListener('click', showCreateForm);
@@ -41,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
             console.error('Failed to connect to Prismic:', error);
-            showStatusMessage('Failed to connect to Prismic repository. Check your API configuration.', 'error');
+            showStatusMessage('Failed to connect to Prismic repository. Check your API configuration and ensure you enabled the CORS proxy.', 'error');
         });
 });
 
@@ -52,11 +64,12 @@ document.addEventListener('DOMContentLoaded', () => {
 // Get the master reference for the repository
 async function getMasterRef() {
     try {
-        const response = await fetch(PRISMIC_CONFIG.endpoints.repository, {
+        const response = await fetch(PRISMIC_CONFIG.proxiedEndpoints.repository, {
             method: 'GET',
             headers: {
                 ...PRISMIC_CONFIG.defaultHeaders,
-                'Authorization': `Bearer ${PRISMIC_CONFIG.accessToken}`
+                'Authorization': `Bearer ${PRISMIC_CONFIG.accessToken}`,
+                'X-Requested-With': 'XMLHttpRequest' // Required by some CORS proxies
             }
         });
 
@@ -68,7 +81,7 @@ async function getMasterRef() {
         return data.refs.find(ref => ref.isMasterRef).ref;
     } catch (error) {
         console.error('Error fetching master ref:', error);
-        showStatusMessage('Failed to connect to Prismic API', 'error');
+        showStatusMessage('Failed to connect to Prismic API. Make sure you enabled the CORS proxy.', 'error');
         throw error;
     }
 }
@@ -85,13 +98,14 @@ async function fetchDocuments() {
             currentMasterRef = await getMasterRef();
         }
 
-        const url = `${PRISMIC_CONFIG.endpoints.documents}?ref=${currentMasterRef}&q=[[at(document.type,"${contentType}")]]`;
+        const url = `${PRISMIC_CONFIG.proxiedEndpoints.documents}?ref=${currentMasterRef}&q=[[at(document.type,"${contentType}")]]`;
 
         const response = await fetch(url, {
             method: 'GET',
             headers: {
                 ...PRISMIC_CONFIG.defaultHeaders,
-                'Authorization': `Bearer ${PRISMIC_CONFIG.accessToken}`
+                'Authorization': `Bearer ${PRISMIC_CONFIG.accessToken}`,
+                'X-Requested-With': 'XMLHttpRequest'
             }
         });
 
@@ -127,11 +141,12 @@ async function createDocument(documentData) {
             }
         };
 
-        const response = await fetch(`${PRISMIC_CONFIG.endpoints.cma.documents}`, {
+        const response = await fetch(`${PRISMIC_CONFIG.proxiedEndpoints.cma.documents}`, {
             method: 'POST',
             headers: {
                 ...PRISMIC_CONFIG.defaultHeaders,
-                'Authorization': `Bearer ${PRISMIC_CONFIG.accessToken}`
+                'Authorization': `Bearer ${PRISMIC_CONFIG.accessToken}`,
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: JSON.stringify(newDocument)
         });
@@ -164,11 +179,12 @@ async function updateDocument(id, ref, documentData) {
             }
         };
 
-        const response = await fetch(`${PRISMIC_CONFIG.endpoints.cma.documents}/${id}`, {
+        const response = await fetch(`${PRISMIC_CONFIG.proxiedEndpoints.cma.documents}/${id}`, {
             method: 'PATCH',
             headers: {
                 ...PRISMIC_CONFIG.defaultHeaders,
-                'Authorization': `Bearer ${PRISMIC_CONFIG.accessToken}`
+                'Authorization': `Bearer ${PRISMIC_CONFIG.accessToken}`,
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: JSON.stringify(updateData)
         });
@@ -191,11 +207,12 @@ async function updateDocument(id, ref, documentData) {
 // Delete a document
 async function deleteDocument(id) {
     try {
-        const response = await fetch(`${PRISMIC_CONFIG.endpoints.cma.documents}/${id}`, {
+        const response = await fetch(`${PRISMIC_CONFIG.proxiedEndpoints.cma.documents}/${id}`, {
             method: 'DELETE',
             headers: {
                 ...PRISMIC_CONFIG.defaultHeaders,
-                'Authorization': `Bearer ${PRISMIC_CONFIG.accessToken}`
+                'Authorization': `Bearer ${PRISMIC_CONFIG.accessToken}`,
+                'X-Requested-With': 'XMLHttpRequest'
             }
         });
 
